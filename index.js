@@ -53,6 +53,32 @@ app.get("/", (req, res) => {
 });
 
 
+
+
+
+
+//!======START <- get user for AuthContext by user email ======>
+
+app.get("/user/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    const user = { email: email };
+    const result = await usersCollection.findOne(user);
+    res.send({
+      total: result.length,
+      result: result,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: error,
+    });
+  }
+});
+
+
+
+
 app.post("/user", async (req, res) => {
   const user = req.body;
   const email = user.email;
