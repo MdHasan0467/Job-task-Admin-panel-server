@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000
+const jwt = require('jsonwebtoken');
 const cors = require('cors')
 const colors = require("colors");
 const dotenv = require('dotenv').config()
@@ -38,6 +39,17 @@ async function dbConnect() {
     catch{err => console.log(err)}
 }
 dbConnect()
+
+
+
+app.post('/create-jwt', (req, res)=>{
+  const user = req.body;
+  const token = jwt.sign(user, process.env.JWT_ACCESS_TOKEN,{
+    expiresIn : '1h'
+  })
+  console.log(token);
+  res.json({token})
+})
 
 
 
